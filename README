@@ -15,7 +15,7 @@ It is intended to port the VMC Ruby client to Python.
  
 == License
  
-Cloud Foundry uses the Apache 2 license.  See LICENSE for details.
+The vcap-python-client uses the Apache 2 license.  See LICENSE for details.
 
 == Installation Notes
 
