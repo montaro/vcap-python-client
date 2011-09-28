@@ -1,4 +1,4 @@
-Copyright (c) 2011 VMware, Ltd.
+Copyright (c) 2011 Cloud Niners, Ltd.
 
 == What is Cloud Foundry?
  
@@ -11,7 +11,7 @@ deployment to multiple clouds.
 The vcap-python-client repo contains a python client library for Cloud Foundry. 
 The library provides a set of classes that ultimately call the core
 Cloud Foundry REST API.
-It is intended to port the VMC Ruby client into Python.
+It is intended to port the VMC Ruby client to Python.
  
 == License
  
