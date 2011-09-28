@@ -19,6 +19,10 @@ class TestClient(unittest.TestCase):
         client = VPC()
         self.assertEqual(constants.DEFAULT_TARGET, client.target)
         
+    def test_info(self):
+        client = VPC()
+        info = client.info()
+        self.assertEqual('{"name":"vcap","build":2222,"support":"http://support.cloudfoundry.com","version":"0.999","description":"VMware\'s Cloud Application Platform","allow_debug":false}', info)
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']
