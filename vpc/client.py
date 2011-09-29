@@ -6,6 +6,7 @@ Created on Sep 28, 2011
 from constants import *
 import re
 from httplib2 import Http
+import simplejson
 
 class VPC(object):        
 # Initialize new client to the target_uri with optional auth_token
@@ -25,4 +26,5 @@ class VPC(object):
         
     def info(self):
         _, content =  self.http.request(self.target+INFO_PATH)
+        simplejson.dumps(content)
         return content
