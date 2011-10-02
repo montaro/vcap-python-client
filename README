@@ -20,3 +20,9 @@ The vcap-python-client uses the Apache 2 license.  See LICENSE for details.
 == Installation Notes
 
 Complete installation notes are present in the README for vcap
+
+== Dependencies
+Dependencies
+
+restclient 0.9.9
+simplejson 2.1.1
