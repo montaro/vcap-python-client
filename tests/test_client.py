@@ -34,7 +34,7 @@ class TestClient(unittest.TestCase):
                'headers':{}
                }
         client = VPC()
-        status, body, response_headers = client.perform_http_request(req)
+        status, _, _ = client.perform_http_request(req)
         self.assertEqual('200', status)
         
         req = {'url':'http://www.google.com',
@@ -42,12 +42,12 @@ class TestClient(unittest.TestCase):
                'params':{},
                'headers':{}
                }
-        status, body, response_headers = client.perform_http_request(req)
+        status, _, _ = client.perform_http_request(req)
         self.assertEqual('405', status)
         
     def test_request(self):
         client = VPC()
-        status, body, response_headers = client.request('get', constants.INFO_PATH, constants.DEFAULT_CONTENT_TYPE)
+        status, _, _ = client.request('get', constants.INFO_PATH, constants.DEFAULT_CONTENT_TYPE)
         self.assertEqual('200', status)
 
 
