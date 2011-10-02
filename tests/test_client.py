@@ -7,6 +7,7 @@ import unittest
 from vpc.client import VPC
 from vpc import constants
 from urllib import urlencode
+import simplejson
 
 class TestClient(unittest.TestCase):
 
@@ -23,7 +24,8 @@ class TestClient(unittest.TestCase):
     def test_info(self):
         client = VPC()
         info = client.info()
-        self.assertEqual('{"name":"vcap","build":2222,"support":"http://support.cloudfoundry.com","version":"0.999","description":"VMware\'s Cloud Application Platform","allow_debug":false}', info)
+        self.assertEqual(info['name'], 'vcap')
+        self.assertEqual(info['support'], 'http://support.cloudfoundry.com')
         
     def test_perform_http_request(self):
         req = {'url':'http://www.google.com',
@@ -42,6 +44,11 @@ class TestClient(unittest.TestCase):
                }
         status, body, response_headers = client.perform_http_request(req)
         self.assertEqual('405', status)
+        
+    def test_request(self):
+        client = VPC()
+        status, body, response_headers = client.request('get', constants.INFO_PATH, constants.DEFAULT_CONTENT_TYPE)
+        self.assertEqual('200', status)
 
 
 if __name__ == "__main__":
