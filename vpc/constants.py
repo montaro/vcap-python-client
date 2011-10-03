@@ -18,3 +18,6 @@ RESOURCES_PATH       = '/resources'
 APPS_PATH            = '/apps'
 SERVICES_PATH        = '/services'
 USERS_PATH           = '/users'
+
+#HTTP specific params
+DEFAULT_CONTENT_TYPE = 'application/json'

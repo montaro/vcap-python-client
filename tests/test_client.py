@@ -6,8 +6,6 @@ Created on Sep 28, 2011
 import unittest
 from vpc.client import VPC
 from vpc import constants
-from urllib import urlencode
-import simplejson
 
 class TestClient(unittest.TestCase):
 
@@ -49,7 +47,11 @@ class TestClient(unittest.TestCase):
         client = VPC()
         status, _, _ = client.request('get', constants.INFO_PATH, constants.DEFAULT_CONTENT_TYPE)
         self.assertEqual('200', status)
-
+        
+    def test_login(self):
+        client = VPC()
+        status, response, content = client.login('foo@bar.com', 'foobar')
+        self.assertEqual('200', status)
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']

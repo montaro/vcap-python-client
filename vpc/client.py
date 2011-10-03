@@ -5,7 +5,6 @@ Created on Sep 28, 2011
 '''
 import constants
 import re
-from httplib2 import Http
 import simplejson
 import restclient
 
@@ -18,7 +17,6 @@ class VPC(object):
         self.user = None
         self.proxy = None
         self.auth_token = None
-        self.http = Http()
         if not target_url:
             raise Exception("Invalid target URL")
         if not (re.match('^https?', target_url)):
@@ -28,12 +26,22 @@ class VPC(object):
         self.auth_token = auth_token
         
     def info(self):
-        _, _, headers = self.request('GET', constants.INFO_PATH, constants.DEFAULT_CONTENT_TYPE)
-        headers = simplejson.loads(headers)
-        return headers
+        _, _, content = self.request('GET', constants.INFO_PATH, constants.DEFAULT_CONTENT_TYPE)
+        content = simplejson.loads(content)
+        return content
     
+    def login(self, user, password):
+        path =  '%s/%s/tokens' % (constants.USERS_PATH, user)
+        status, response, content = self.request('POST', path, content_type=constants.DEFAULT_CONTENT_TYPE, params={'password':password})
+        return (status, response, content)
+
     def perform_http_request(self, req):
-        response, content = getattr(restclient, req['method'].upper())(url=req['url'], params=req['params'], headers=req['headers'], resp=True, async=False)
+        response, content = getattr(restclient, req['method'].upper())(url=req['url'], 
+                                                                       params=req['params'], 
+                                                                       headers=req['headers'], 
+                                                                       resp=True, 
+                                                                       async=False,
+                                                                       accept=[constants.DEFAULT_CONTENT_TYPE])
         return (response['status'], response, content)
 
     def request(self, method, path, content_type = None, params = None, headers = {}):
@@ -42,11 +50,12 @@ class VPC(object):
         if content_type:
             headers['Content-Type'] = content_type
             headers['Accept'] = content_type
+            headers['X-VCAP-Trace'] = '22'
         req = {
           'method':method,
           'url': '%s%s' % (self.target, path),
           'headers' : headers,
           'params':params
         }
-        status, body, response_headers = self.perform_http_request(req)
-        return (status, body, response_headers)
+        status, response, content = self.perform_http_request(req)
+        return (status, response, content)
