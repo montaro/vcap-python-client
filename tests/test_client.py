@@ -28,16 +28,16 @@ class TestClient(unittest.TestCase):
     def test_perform_http_request(self):
         req = {'url':'http://www.google.com',
                'method':'get',
-               'params':{},
+               'params':'',
                'headers':{}
                }
         client = VPC()
         status, _, _ = client.perform_http_request(req)
-        self.assertEqual('200', status)
+        self.assertEqual('302', status)
         
         req = {'url':'http://www.google.com',
                'method':'post',
-               'params':{},
+               'params':{'x':'y'},
                'headers':{}
                }
         status, _, _ = client.perform_http_request(req)
@@ -50,8 +50,10 @@ class TestClient(unittest.TestCase):
         
     def test_login(self):
         client = VPC()
-        status, response, content = client.login('foo@bar.com', 'foobar')
+        self.assertEqual(None, client.auth_token)
+        status, _, _ = client.login('foo@bar.com', 'password')
         self.assertEqual('200', status)
+        self.assertNotEqual(None, client.auth_token)
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']

@@ -6,7 +6,7 @@ Created on Sep 28, 2011
 import constants
 import re
 import simplejson
-import restclient
+from httplib2 import Http
 
 class VPC(object):        
 # Initialize new client to the target_uri with optional auth_token
@@ -24,6 +24,7 @@ class VPC(object):
         re.sub('/\/+$/', '', target_url)
         self.target =  target_url
         self.auth_token = auth_token
+        self.http = Http()
         
     def info(self):
         _, _, content = self.request('GET', constants.INFO_PATH, constants.DEFAULT_CONTENT_TYPE)
@@ -33,15 +34,12 @@ class VPC(object):
     def login(self, user, password):
         path =  '%s/%s/tokens' % (constants.USERS_PATH, user)
         status, response, content = self.request('POST', path, content_type=constants.DEFAULT_CONTENT_TYPE, params={'password':password})
+        self.auth_token = simplejson.loads(content)['token']
         return (status, response, content)
 
     def perform_http_request(self, req):
-        response, content = getattr(restclient, req['method'].upper())(url=req['url'], 
-                                                                       params=req['params'], 
-                                                                       headers=req['headers'], 
-                                                                       resp=True, 
-                                                                       async=False,
-                                                                       accept=[constants.DEFAULT_CONTENT_TYPE])
+        body = simplejson.dumps(req['params']) if req['params'] else ''
+        response, content = self.http.request(req['url'], req['method'], body, req['headers'])
         return (response['status'], response, content)
 
     def request(self, method, path, content_type = None, params = None, headers = {}):
