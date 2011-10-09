@@ -34,7 +34,7 @@ class VPC(object):
     def login(self, user, password):
         path =  '%s/%s/tokens' % (constants.USERS_PATH, user)
         status, response, content = self.request('POST', path, content_type=constants.DEFAULT_CONTENT_TYPE, params={'password':password})
-        self.auth_token = simplejson.loads(content)['token']
+        self.auth_token = simplejson.loads(content)['token'] if content else None
         return (status, response, content)
 
     def perform_http_request(self, req):

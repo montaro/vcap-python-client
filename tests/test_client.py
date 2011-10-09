@@ -51,7 +51,7 @@ class TestClient(unittest.TestCase):
     def test_login(self):
         client = VPC()
         self.assertEqual(None, client.auth_token)
-        status, _, _ = client.login('foo@bar.com', 'password')
+        status, _, _ = client.login('c9.cf.poc@gmail.com', 'cloud9ers')
         self.assertEqual('200', status)
         self.assertNotEqual(None, client.auth_token)
 
