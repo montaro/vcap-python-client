@@ -7,6 +7,9 @@ import unittest
 from vpc.client import VPC
 from vpc import constants
 
+username = 'c9.cf.poc@gmail.com'
+password = 'cloud9ers'
+
 class TestClient(unittest.TestCase):
 
     def setUp(self):
@@ -51,7 +54,7 @@ class TestClient(unittest.TestCase):
     def test_login(self):
         client = VPC()
         self.assertEqual(None, client.auth_token)
-        status, _, _ = client.login('c9.cf.poc@gmail.com', 'cloud9ers')
+        status, _, _ = client.login(username, password)
         self.assertEqual('200', status)
         self.assertNotEqual(None, client.auth_token)
 
