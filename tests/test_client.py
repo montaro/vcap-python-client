@@ -33,9 +33,9 @@ class TestClient(unittest.TestCase):
                }
         client = VPC()
         status, _, _ = client.perform_http_request(req)
-        self.assertEqual('302', status)
+        self.assertEqual('200', status)
         
-        req = {'url':'http://www.google.com',
+        req = {'url':'https://www.google.com',
                'method':'post',
                'params':{'x':'y'},
                'headers':{}

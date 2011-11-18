@@ -39,7 +39,7 @@ class VPC(object):
 
     def perform_http_request(self, req):
         body = simplejson.dumps(req['params']) if req['params'] else ''
-        response, content = self.http.request(req['url'], req['method'], body, req['headers'])
+        response, content = self.http.request(req['url'], req['method'].upper(), body, req['headers'])
         return (response['status'], response, content)
 
     def request(self, method, path, content_type = None, params = None, headers = {}):
